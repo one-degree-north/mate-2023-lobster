@@ -1,0 +1,54 @@
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BNO055.h>
+#include <utility/imumaths.h>
+#include <Servo.h>
+char header = 1;
+char footer = 8;
+
+  
+Servo thrusters[] = {mythruster_FR,mythruster_BR,mythruster_BL,mythruster_FL,mythruster_R,mythruster_L};
+
+void setup() {
+  thrusters[0].attach(7,1000,2000);
+  thrusters[0].writeMicroseconds(1500);
+  
+  thrusters[1].attach(8,1000,2000);
+  thrusters[1].writeMicroseconds(1500);
+  
+  thrusters[2].attach(9,1000,2000);
+  thrusters[2].writeMicroseconds(1500);
+  
+  thrusters[3].attach(10,1000,2000);
+  thrusters[3].writeMicroseconds(1500);
+  
+  thrusters[4].attach(11,1000,2000);
+  thrusters[4].writeMicroseconds(1500);
+  
+  thrusters[5].attach(12,1000,2000);
+  thrusters[5].writeMicroseconds(1500);
+  
+  
+  
+  delay(200);
+  Serial.begin(9600);
+}
+
+void loop() {
+        if (incomingByte[2] == 2){
+          thrusters[0].writeMicroseconds(motor_speed);
+        } else if (incomingByte[2] == 3){
+            thrusters[1].writeMicroseconds(motor_speed);
+        } else if (incomingByte[2] == 4){
+            thrusters[2].writeMicroseconds(motor_speed);
+        } else if (incomingByte[2] == 5){
+            thrusters[3].writeMicroseconds(motor_speed);
+        } else if (incomingByte[2] == 6){
+            thrusters[4].writeMicroseconds(motor_speed);
+        } else if (incomingByte[2] == 7){
+            thrusters[5].writeMicroseconds(motor_speed);
+        } 
+        
+      
+    
+}
