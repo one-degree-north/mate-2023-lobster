@@ -1,10 +1,8 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QSlider, QLabel
+import cv2
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtCore import Qt, QThread, pyqtSignal, pyqtSlot
-
-import cv2
 from numpy import ndarray
-
 from util import *
 
 class CameraTab(QWidget):
@@ -15,17 +13,18 @@ class CameraTab(QWidget):
         self.setStyleSheet("""
             QWidget {
                 background: %s;
-                border-radius: 10px;
             }
-        # """ % Color.crimson)
+        # """ % Color.back)
 
-        self.cam_width = 320
-        self.cam_height = 240
+        self.cam_width = 500
+        self.cam_height = 300
 
         self.cam_1 = Camera(self, "Claw camera", 0) # settings
         self.cam_2 = Camera(self, "Down camera", 1) # settings
 
-        self.layout = QVBoxLayout()
+        self.setContentsMargins(0, 0, 80, 0)
+        self.layout = QHBoxLayout()
+        self.layout.setSpacing(0)
 
         self.layout.addWidget(self.cam_1)
         self.layout.addWidget(self.cam_2)
@@ -49,7 +48,6 @@ class Camera(QWidget):
         self.thread = VideoThread(0)
         self.thread.change_pixmap_signal.connect(self.update_image)
         self.thread.start()
-
 
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.viewfinder)
