@@ -3,7 +3,7 @@ from PyQt6.QtCore import Qt
 from util import *
 
 
-class Lables(QWidget):
+class Labels(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -13,32 +13,32 @@ class Lables(QWidget):
             QWidget {
                 background: %s;
                 border-radius: 10px
-            } #
+            }
         """ % Color.back)
 
         self.setFixedHeight(150)
         self.setFixedWidth(250)
 
-        self.rickL = QLabel('YAW:')
-        self.rawL = QLabel('PITCH:')
-        self.yollL = QLabel('ROLL:')
+        self.yaw = QLabel('YAW:')
+        self.pitch = QLabel('PITCH:')
+        self.roll = QLabel('ROLL:')
 
 
-        self.rickL.setStyleSheet("""
+        self.yaw.setStyleSheet("""
             QLabel {
                 font: bold 20px;
                 color: %s
             } #
         """ % Color.white)
 
-        self.rawL.setStyleSheet("""
+        self.pitch.setStyleSheet("""
             QLabel {
                 font: bold 20px;
                 color: %s
             } #
         """ % Color.white)
 
-        self.yollL.setStyleSheet("""
+        self.roll.setStyleSheet("""
             QLabel {
                 font: bold 20px;
                 color: %s
@@ -48,8 +48,8 @@ class Lables(QWidget):
         self.layout = QVBoxLayout()        
         self.layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
         self.layout.setSpacing(8)
-        self.layout.addWidget(self.rickL)
-        self.layout.addWidget(self.rawL)
-        self.layout.addWidget(self.yollL)
+        self.layout.addWidget(self.yaw)
+        self.layout.addWidget(self.pitch)
+        self.layout.addWidget(self.roll)
 
         self.setLayout(self.layout)

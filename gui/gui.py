@@ -4,10 +4,11 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from util import *
 from stopwatch import Stopwatch
-from lables import Lables
-from navBar import NavBar
+from labels import Labels
+from navbar import NavBar
 from datetime import datetime
 import cv2
+import os
 # import logging
 
 class MainWindow(QMainWindow):
@@ -62,12 +63,12 @@ class MainWindow(QMainWindow):
         self.frame.layout.addWidget(self.mid)
 
 
-        self.bar.startstopButt.clicked.connect(self.stopwatch_something)
+        self.bar.startstopButt.clicked.connect(self.stopwatch_toggle)
         self.bar.resetButt.clicked.connect(self.stopwatch_reset)
         self.bar.capButt.clicked.connect(self.capture_image)
 
 
-        self.xyz = Lables()
+        self.xyz = Labels()
         self.xFrame = QWidget()
         self.xFrame.layout = QVBoxLayout()
         self.xFrame.layout.setContentsMargins(105,10,50,50)
@@ -76,15 +77,22 @@ class MainWindow(QMainWindow):
         self.frame.layout.addWidget(self.xFrame)
 
 
-    def stopwatch_something(self):
+    def stopwatch_toggle(self):
         self.watch.stopwatch_on = not self.watch.stopwatch_on
         if self.watch.stopwatch_on:
             self.bar.startstopButt.setIcon(QIcon('gui/icons/pause.png'))
+            self.bar.startstopButt.setToolTip("Pause")
         else:
             self.bar.startstopButt.setIcon(QIcon('gui/icons/start.png'))
+            self.bar.startstopButt.setToolTip("Start")
 
     def stopwatch_reset(self):
-        self.watch.reset()
+        self.watch.centiseconds = 0
+        self.watch.seconds = 0
+        self.watch.minutes = 0
+
+        self.watch.stopwatch_label.setText('00:00:00')
+
         self.watch.stopwatch_on = False
         self.bar.startstopButt.setIcon(QIcon('gui/icons/start.png'))
 
@@ -165,6 +173,11 @@ class MainWindow(QMainWindow):
             
 
 if __name__ == '__main__':
+    try:
+        os.mkdir("gui/captures")
+    except FileExistsError:
+        pass
+
     app = QApplication([])
 
     window = MainWindow()

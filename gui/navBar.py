@@ -22,10 +22,8 @@ class NavBar(QWidget):
         self.setFixedWidth(75)
 
         self.startstopButt = Button('gui/icons/start.png', 'Start')
-        # self.startstopButt.clicked.connect(self.startstop)
 
         self.resetButt = Button('gui/icons/reset.png', 'Reset')
-        # self.resetButt.clicked.connect(self.reset)
 
         self.capButt = Button('gui/icons/capture.png', 'Capture')
 
@@ -43,7 +41,5 @@ class NavBar(QWidget):
         self.layout.addWidget(self.capButt)
         self.layout.addWidget(self.bunn)
         self.layout.addWidget(self.lobButt)
-
-        # self.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.setLayout(self.layout)
