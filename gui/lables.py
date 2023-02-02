@@ -47,7 +47,7 @@ class Lables(QWidget):
  
         self.layout = QVBoxLayout()        
         self.layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
-        self.layout.setSpacing(10)
+        self.layout.setSpacing(8)
         self.layout.addWidget(self.rickL)
         self.layout.addWidget(self.rawL)
         self.layout.addWidget(self.yollL)

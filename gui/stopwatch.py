@@ -121,37 +121,34 @@ class Stopwatch(QWidget):
         self.seconds, self.centiseconds = divmod(self.total_centiseconds, 100)
         self.minutes, self.seconds = divmod(self.seconds, 60)
 
-        self.stopwatch_label.setText(f'{self.minutes:02d}:{self.seconds:02d}.{self.centiseconds:02d}')
+        self.stopwatch_label.setText(f'{self.minutes:02d}:{self.seconds:02d}:{self.centiseconds:02d}')
 
 
     def startstop(self):
         if self.parent.stopwatch.stopwatch_on:
             self.parent.stopwatch.stopwatch_on = False
-
-            self.startstop_button.setIcon(QIcon('gui/icons/play_icon.png'))
+            
             self.startstop_button.setToolTip('Resume')
 
         else:
             if self.quickstart_button.isEnabled():
                 self.quickstart_button.setDisabled(True)
 
-            self.startstop_button.setIcon(QIcon('gui/icons/pause_icon.png'))
             self.startstop_button.setToolTip('Pause')
 
             self.parent.stopwatch.stopwatch_on = True
 
 
     def reset(self):
-        self.parent.stopwatch.stopwatch_on = False
+        # self.parent.stopwatch.sto = False
 
-        self.parent.stopwatch.centiseconds = 0
-        self.parent.stopwatch.seconds = 0
-        self.parent.stopwatch.minutes = 0
+        self.centiseconds = 0
+        self.seconds = 0
+        self.minutes = 0
 
-        self.parent.stopwatch.stopwatch_label.setText('00:00.00')
+        self.stopwatch_label.setText('00:00:00')
 
-        self.startstop_button.setIcon(QIcon('gui/icons/play_icon.png'))
-        self.startstop_button.setToolTip('Start')
+        # self.startstop_button.setToolTip('Start')
 
-        if not self.parent.capture_control.recording:
-            self.parent.stopwatch_control.quickstart_button.setDisabled(False)
+        # if not self.parent.capture_control.recording:
+        #     self.parent.stopwatch_control.quickstart_button.setDisabled(False)

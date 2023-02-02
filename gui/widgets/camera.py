@@ -85,9 +85,9 @@ class VideoThread(QThread):
         cap = cv2.VideoCapture(self.port)
 
         while self.running:
-            ret, image = cap.read()
+            ret, self.image = cap.read()
             if ret:
-                self.change_pixmap_signal.emit(image)
+                self.change_pixmap_signal.emit(self.image)
                 
         cap.release()
         

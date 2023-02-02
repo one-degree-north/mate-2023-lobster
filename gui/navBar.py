@@ -31,7 +31,8 @@ class NavBar(QWidget):
 
         self.bunn = Button('gui/icons/bunny.png', 'Bunny')
 
-        self.lobButt = Button('gui/icons/lobster', 'Lobster')
+        self.lobButt = Button('gui/icons/lobster.png', 'Lobster')
+
 
         self.layout = QVBoxLayout()
         self.layout.setSpacing(10)
