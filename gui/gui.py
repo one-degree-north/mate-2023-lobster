@@ -1,18 +1,21 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QLabel
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout
 from widgets import camera
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIcon
 from util import *
 from stopwatch import Stopwatch
 from lables import Lables
 from navBar import NavBar
-
+from datetime import datetime
+import cv2
+# import logging
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setStyleSheet("""
-            QMainWindow {
+            QMainWindow {\
                 background: %s
             } #
         """ % Color.back)
@@ -47,7 +50,6 @@ class MainWindow(QMainWindow):
         self.barFrame = QWidget()
         self.barFrame.layout = QHBoxLayout()
         self.barFrame.layout.setContentsMargins(0,0,0,0)
-        # self.barFrame.layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
         self.barFrame.setLayout(self.barFrame.layout)
         self.barFrame.layout.addWidget(self.bar)
 
@@ -58,41 +60,109 @@ class MainWindow(QMainWindow):
         self.mid.layout.setContentsMargins(0,0,0,0)
         self.mid.setLayout(self.mid.layout)
         self.frame.layout.addWidget(self.mid)
-        
-        # self.cameras = camera.CameraTab()
-        # self.cameras.layout = QHBoxLayout()
-        # self.frame.layout.addWidget(self.cameras)
 
-        # self.bar = NavBar()
-        # self.barFrame = QWidget()
-        # self.barFrame.layout = QHBoxLayout()
-        # self.barFrame.layout.setContentsMargins(0,0,0,0)
-        # self.barFrame.layout.setAlignment(Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-        # self.barFrame.layout.addWidget(self.bar)
-        # # self.bar.layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        # #self.barFrame.layout.setAlignment(Qt.AlignmentFlag.AlignVCenter.AlignLeft)
-        # self.barFrame.setLayout(self.barFrame.layout)
-        # # self.cameras.layout.addWidget(self.barFrame)
-        # self.frame.layout.addWidget(self.barFrame, 500)
-        # # self.bar.layout.addStretch(1)
-        # # self.barFrame.layout.addStretch(1)
-        # # self.cameras = camera.CameraTab()
-        # # self.barFrame.setLayout(self.barFrame.layout)
-        # # self.cameras.layout.addWidget(self.barFrame)
-        # # self.frame.layout.addWidget(self.cameras)
+
+        self.bar.startstopButt.clicked.connect(self.stopwatch_something)
+        self.bar.resetButt.clicked.connect(self.stopwatch_reset)
+        self.bar.capButt.clicked.connect(self.capture_image)
 
 
         self.xyz = Lables()
         self.xFrame = QWidget()
         self.xFrame.layout = QVBoxLayout()
         self.xFrame.layout.setContentsMargins(105,10,50,50)
-        # self.xFrame.layout.setAlignment(Qt.AlignmentFlag.AlignTrailing)
         self.xFrame.layout.addWidget(self.xyz)
         self.xFrame.setLayout(self.xFrame.layout)
         self.frame.layout.addWidget(self.xFrame)
 
 
+    def stopwatch_something(self):
+        self.watch.stopwatch_on = not self.watch.stopwatch_on
+        if self.watch.stopwatch_on:
+            self.bar.startstopButt.setIcon(QIcon('gui/icons/pause.png'))
+        else:
+            self.bar.startstopButt.setIcon(QIcon('gui/icons/start.png'))
 
+    def stopwatch_reset(self):
+        self.watch.reset()
+        self.watch.stopwatch_on = False
+        self.bar.startstopButt.setIcon(QIcon('gui/icons/start.png'))
+
+    def capture_image(self):
+        time = datetime.now().strftime(f"%d-%m-%y_%H:%M:%S.%f")[:-4]
+
+        cv2.imwrite("gui/captures/cam1s"+time+".png", self.cameras.cam_1.thread.image)
+        cv2.imwrite("gui/captures/cam2s"+time+".png", self.cameras.cam_2.thread.image)
+
+    def keyPressEvent(self, e):
+        if not e.isAutoRepeat():
+            if e.key() == Qt.Key.Key_W:
+                print("fowrad")
+            elif e.key() == Qt.Key.Key_A:
+                print("left")
+            elif e.key() == Qt.Key.Key_S:
+                print("back")
+            elif e.key() == Qt.Key.Key_D:
+                print("right")
+            elif e.key() == Qt.Key.Key_Q:
+                print("roll left")
+            elif e.key() == Qt.Key.Key_E:
+                print("roll right")
+            elif e.key() == Qt.Key.Key_Control:
+                print("down")
+            elif e.key() == Qt.Key.Key_Space:
+                print("up")
+            elif e.key() == Qt.Key.Key_H:
+                print("hover")
+            elif e.key() == Qt.Key.Key_F:
+                print("pitch up")
+            elif e.key() == Qt.Key.Key_C:
+                print("pitch up")
+            elif e.key() == Qt.Key.Key_1:
+                print("speed 10%")
+            elif e.key() == Qt.Key.Key_2:
+                print("speed 20%")
+            elif e.key() == Qt.Key.Key_3:
+                print("speed 30%")
+            elif e.key() == Qt.Key.Key_4:
+                print("speed 40%")
+            elif e.key() == Qt.Key.Key_5:
+                print("speed 50%")
+            elif e.key() == Qt.Key.Key_6:
+                print("speed 60%")
+            elif e.key() == Qt.Key.Key_7:
+                print("speed 70%")
+            elif e.key() == Qt.Key.Key_8:
+                print("speed 80%")
+            elif e.key() == Qt.Key.Key_9:
+                print("speed 90%")
+            elif e.key() == Qt.Key.Key_0:
+                print("speed 100%")
+
+    def keyReleaseEvent(self, e):
+        if not e.isAutoRepeat():
+            if e.key() == Qt.Key.Key_W:
+                print("release fowrad")
+            elif e.key() == Qt.Key.Key_A:
+                print("release left")
+            elif e.key() == Qt.Key.Key_S:
+                print("release back")
+            elif e.key() == Qt.Key.Key_D:
+                print("release right")
+            elif e.key() == Qt.Key.Key_Q:
+                print("release roll left")
+            elif e.key() == Qt.Key.Key_E:
+                print("release roll right")
+            elif e.key() == Qt.Key.Key_Control:
+                print("release down")
+            elif e.key() == Qt.Key.Key_Space:
+                print("release up")
+            elif e.key() == Qt.Key.Key_F:
+                print("release pitch up")
+            elif e.key() == Qt.Key.Key_C:
+                print("release pitch up")
+
+            
 
 if __name__ == '__main__':
     app = QApplication([])
