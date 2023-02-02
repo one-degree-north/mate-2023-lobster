@@ -1,0 +1,66 @@
+import pygame
+import serial
+
+pygame.init()
+pygame.joystick.init()
+joystick = pygame.joystick.Joystick(0)
+joystick.init()
+
+ser = serial.Serial("/dev/ttyACM0", 9600)
+
+class JoystickMovement:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        
+    def move_left(self):
+        self.x -= 1
+        
+    def move_right(self):
+        self.x += 1
+        
+    def move_up(self):
+        self.y += 1
+        
+    def move_down(self):
+        self.y -= 1
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.motion:
+
+            x_axis = joystick.get_axis(0)
+            y_axis = joystick.get_axis(1)
+            
+            x_speed = int(x_axis * 100)
+            y_speed = int(y_axis * 100)
+            
+            ser.write(f"X{x_speed}\n".encode())
+            ser.write(f"Y{y_speed}\n".encode())
+
+    class Joystick:
+        def __init__(self):
+            pygame.init()
+            pygame.joystick.init()
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
+            self.ser = serial.Serial('/dev/ttyACM0', 9600)
+
+        def send_data(self, x, y):
+            self.ser.write(f'{x},{y}\n'.encode())
+
+        def read_data(self):
+            return self.ser.readline().decode().strip()
+
+        def run(self):
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.motion:
+                        x, y = self.joystick.get_axis(0), self.joystick.get_axis(1)
+                        self.send_data(x, y)
+                data = self.read_data()
+                print(data)
+
+    if __name__ == '__main__':
+        joystick = Joystick()
+        joystick.run()
