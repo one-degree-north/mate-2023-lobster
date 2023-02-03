@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLabel
 from PyQt6.QtCore import Qt
-from util import *
+from .util import *
 
 
 class Labels(QWidget):

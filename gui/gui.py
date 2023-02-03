@@ -1,18 +1,18 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout
-from widgets import camera
+from gui.camera import CameraTab
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-from util import *
-from stopwatch import Stopwatch
-from labels import Labels
-from navbar import NavBar
+from .util import *
+from .stopwatch import Stopwatch
+from .labels import Labels
+from .navbar import NavBar
 from datetime import datetime
 import cv2
 import os
 # import logging
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, comms):
         super().__init__()
 
         self.setStyleSheet("""
@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
         self.watchFrame.setLayout(self.watchFrame.layout)
         self.frame.layout.addWidget(self.watchFrame)
 
-        self.cameras = camera.CameraTab()
+        self.cameras = CameraTab()
         self.cameras.layout = QHBoxLayout()
         
         self.bar = NavBar()

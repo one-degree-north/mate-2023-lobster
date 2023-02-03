@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QVBoxLayout, QWidget, QLabel, QHBoxLayout
 from PyQt6.QtCore import Qt
-from util import *
-from buttons import Button
+from .util import *
+from .buttons import Button
 
 
 class NavBar(QWidget):

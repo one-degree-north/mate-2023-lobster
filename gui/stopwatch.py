@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QHBoxLayout, QVBoxLayout, QWidget, QLabel
 from PyQt6.QtCore import Qt, QTimer
-from util import *
+from .util import *
 
 class Stopwatch(QWidget):
     def __init__(self):

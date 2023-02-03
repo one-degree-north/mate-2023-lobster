@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication
 from gui.gui import MainWindow
-
+# from comms import Comms
 import os
 
 if __name__ == '__main__':
@@ -11,7 +11,9 @@ if __name__ == '__main__':
 
     app = QApplication([])
 
-    window = MainWindow()
+    # comms = Comms("/dev/w0e0", 9600)
+
+    window = MainWindow(None)
     window.show()
 
     app.exec()
