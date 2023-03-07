@@ -1,0 +1,96 @@
+#include <Servo.h>
+
+// Thruster pins
+#define THRUSTER_1_PIN 2
+#define THRUSTER_2_PIN 3
+#define THRUSTER_3_PIN 4
+#define THRUSTER_4_PIN 5
+#define THRUSTER_5_PIN 6
+#define THRUSTER_6_PIN 7
+
+// Servo pins
+#define SERVO_1_PIN 8
+#define SERVO_2_PIN 9
+
+// Servo objects
+Servo servo1;
+Servo servo2;
+
+// Variables to store thruster and servo values
+int thruster1Value = 0;
+int thruster2Value = 0;
+int thruster3Value = 0;
+int thruster4Value = 0;
+int thruster5Value = 0;
+int thruster6Value = 0;
+int servo1Value = 0;
+int servo2Value = 0;
+
+void setup() {
+  // Initialize serial communication at 9600 baud rate
+  Serial.begin(9600);
+  
+  // Attach servo objects to servo pins
+  servo1.attach(SERVO_1_PIN);
+  servo2.attach(SERVO_2_PIN);
+  
+  // Set thruster pins as output pins
+  pinMode(THRUSTER_1_PIN, OUTPUT);
+  pinMode(THRUSTER_2_PIN, OUTPUT);
+  pinMode(THRUSTER_3_PIN, OUTPUT);
+  pinMode(THRUSTER_4_PIN, OUTPUT);
+  pinMode(THRUSTER_5_PIN, OUTPUT);
+  pinMode(THRUSTER_6_PIN, OUTPUT);
+}
+
+void loop() {
+  // Read keyboard input
+  if (Serial.available() > 0) {
+    char command = Serial.read();
+    
+    // Control thrusters
+    if (command == 'w') {
+      thruster1Value = 255;
+      thruster2Value = 255;
+      thruster3Value = 255;
+      thruster4Value = 255;
+      thruster5Value = 255;
+      thruster6Value = 255;
+    } else if (command == 'a') {
+      thruster1Value = -255;
+      thruster4Value = -255;
+      thruster5Value = -255;
+    } else if (command == 's') {
+      thruster1Value = -255;
+      thruster2Value = -255;
+      thruster3Value = -255;
+      thruster4Value = -255;
+      thruster5Value = -255;
+      thruster6Value = -255;
+    } else if (command == 'd') {
+      thruster2Value = -255;
+      thruster3Value = -255;
+      thruster6Value = -255;
+    } else {
+      thruster1Value = 0;
+      thruster2Value = 0;
+      thruster3Value = 0;
+      thruster4Value = 0;
+      thruster5Value = 0;
+      thruster6Value = 0;
+    }
+    
+    // Control servos
+    if (command == 'u') {
+      servo1Value = servo1Value + 5;
+    } else if (command == 'j') {
+      servo1Value = servo1Value - 5;
+    } else if (command == 'i') {
+      servo2Value = servo2Value + 5;
+    } else if (command == 'k') {
+      servo2Value = servo2Value - 5;
+    }
+  }
+  
+  // Update thruster and servo values
+  analogWrite(THRUSTER_1_PIN
