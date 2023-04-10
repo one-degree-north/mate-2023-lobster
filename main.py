@@ -14,7 +14,7 @@ if __name__ == '__main__':
     comms = None
 
     if input("Comms? ") == "y":
-        comms = Comms("/dev/w0e0", 9600)
+        comms = Comms("/dev/cu.usbmodem112301", 9600)
 
     app = QApplication(sys.argv)
 

@@ -11,11 +11,14 @@ from gui.util import *
 from gui.stopwatch import Stopwatch
 from gui.labels import Labels
 from gui.navbar import Navbar
+from comms import Comms
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, comms):
+    def __init__(self, comms: Comms):
         super().__init__()
+
+        self.comms = comms
 
         self.setStyleSheet("""
             QMainWindow {
@@ -105,72 +108,64 @@ class MainWindow(QMainWindow):
         cv2.imwrite("gui/captures/cam2s"+time+".png", self.cameras.cam_2.thread.image)
 
     def keyPressEvent(self, e):
-        if not e.isAutoRepeat():
+        if self.comms and not e.isAutoRepeat():
             if e.key() == Qt.Key.Key_W:
-                print("fowrad")
+                self.comms.forward()
             elif e.key() == Qt.Key.Key_A:
-                print("left")
+                self.comms.yaw_left()
             elif e.key() == Qt.Key.Key_S:
-                print("back")
+                self.comms.backward()
             elif e.key() == Qt.Key.Key_D:
-                print("right")
+                self.comms.yaw_right()
             elif e.key() == Qt.Key.Key_Q:
-                print("roll left")
+                self.comms.roll_left()
             elif e.key() == Qt.Key.Key_E:
-                print("roll right")
+                self.comms.roll_right()
             elif e.key() == Qt.Key.Key_Control:
-                print("down")
+                self.comms.down()
             elif e.key() == Qt.Key.Key_Space:
-                print("up")
+                self.comms.up()
+            elif e.key() == Qt.Key.Key_F:
+                self.comms.pitch_up()
+            elif e.key() == Qt.Key.Key_C:
+                self.comms.pitch_down()
             elif e.key() == Qt.Key.Key_H:
                 print("hover")
-            elif e.key() == Qt.Key.Key_F:
-                print("pitch up")
-            elif e.key() == Qt.Key.Key_C:
-                print("pitch up")
             elif e.key() == Qt.Key.Key_1:
-                print("speed 10%")
+                self.comms.set_speed(1)
             elif e.key() == Qt.Key.Key_2:
-                print("speed 20%")
+                self.comms.set_speed(2)
             elif e.key() == Qt.Key.Key_3:
-                print("speed 30%")
+                self.comms.set_speed(3)
             elif e.key() == Qt.Key.Key_4:
-                print("speed 40%")
+                self.comms.set_speed(4)
             elif e.key() == Qt.Key.Key_5:
-                print("speed 50%")
-            elif e.key() == Qt.Key.Key_6:
-                print("speed 60%")
-            elif e.key() == Qt.Key.Key_7:
-                print("speed 70%")
-            elif e.key() == Qt.Key.Key_8:
-                print("speed 80%")
-            elif e.key() == Qt.Key.Key_9:
-                print("speed 90%")
+                self.comms.set_speed(5)
             elif e.key() == Qt.Key.Key_0:
-                print("speed 100%")
+                self.comms.stop_thrusters()
 
     def keyReleaseEvent(self, e):
-        if not e.isAutoRepeat():
+        if self.comms and not e.isAutoRepeat():
             if e.key() == Qt.Key.Key_W:
-                print("release fowrad")
+                self.comms.stop_thrusters(side=True)
             elif e.key() == Qt.Key.Key_A:
-                print("release left")
+                self.comms.stop_thrusters(side=True)
             elif e.key() == Qt.Key.Key_S:
-                print("release back")
+                self.comms.stop_thrusters(side=True)
             elif e.key() == Qt.Key.Key_D:
-                print("release right")
+                self.comms.stop_thrusters(side=True)
             elif e.key() == Qt.Key.Key_Q:
-                print("release roll left")
+                self.comms.stop_thrusters(vertical=True)
             elif e.key() == Qt.Key.Key_E:
-                print("release roll right")
+                self.comms.stop_thrusters(vertical=True)
             elif e.key() == Qt.Key.Key_Control:
-                print("release down")
+                self.comms.stop_thrusters(vertical=True)
             elif e.key() == Qt.Key.Key_Space:
-                print("release up")
+                self.comms.stop_thrusters(vertical=True)
             elif e.key() == Qt.Key.Key_F:
-                print("release pitch up")
+                self.comms.stop_thrusters(vertical=True)
             elif e.key() == Qt.Key.Key_C:
-                print("release pitch up")
+                self.comms.stop_thrusters(vertical=True)
 
             
 
