@@ -2,11 +2,6 @@ import serial
 from dataclasses import dataclass
 import struct
 
-# @dataclass
-# class PacketInfo:
-#     thruster: int
-#     speed: int
-
 
 class Comms:
     def __init__(self, port, baud):
@@ -14,15 +9,6 @@ class Comms:
         
         self.HEADER = b'\xab'
         self.FOOTER = b'\xb3'
-
-        # self.thrusters = {
-        #     "FL": b'\x10',
-        #     "FR": b'\x12',
-        #     "BL": b'\x14',
-        #     "BR": b'\x16',
-        #     "SL": b'\x18',
-        #     "SR": b'\x20'
-        # }
 
         self.THRUSTERS = (
             b'\x10',
@@ -33,7 +19,7 @@ class Comms:
             b'\x20'
         ) # fl, fr, bl, br, sl, sr
 
-        self.speed = 100 # speed - [100, 500]
+        self.speed = 200
 
     def up(self):
         self.__write_thruster(0)
