@@ -4,7 +4,7 @@ from .util import *
 from .buttons import Button
 
 
-class NavBar(QWidget):
+class Navbar(QWidget):
     def __init__(self):
         super().__init__()
 

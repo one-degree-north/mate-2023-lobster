@@ -1,25 +1,27 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout
-from gui.camera import CameraTab
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-from .util import *
-from .stopwatch import Stopwatch
-from .labels import Labels
-from .navbar import NavBar
-from datetime import datetime
-import cv2
+
 import os
-# import logging
+import cv2
+from datetime import datetime
+
+from gui.camera import CameraTab
+from gui.util import *
+from gui.stopwatch import Stopwatch
+from gui.labels import Labels
+from gui.navbar import Navbar
+
 
 class MainWindow(QMainWindow):
     def __init__(self, comms):
         super().__init__()
 
         self.setStyleSheet("""
-            QMainWindow {\
-                background: %s
-            } #
-        """ % Color.back)
+            QMainWindow {
+                background: %s;
+            }
+        """ % Color.mardi_gras)
  
         self.setWindowTitle("Lobster")
         self.frame = QWidget()
@@ -47,7 +49,7 @@ class MainWindow(QMainWindow):
         self.cameras = CameraTab()
         self.cameras.layout = QHBoxLayout()
         
-        self.bar = NavBar()
+        self.bar = Navbar()
         self.barFrame = QWidget()
         self.barFrame.layout = QHBoxLayout()
         self.barFrame.layout.setContentsMargins(0,0,0,0)

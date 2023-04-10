@@ -1,6 +1,8 @@
 from PyQt6.QtWidgets import QApplication
 from gui.gui import MainWindow
-# from comms import Comms
+from comms import Comms
+
+import sys
 import os
 
 if __name__ == '__main__':
@@ -9,11 +11,14 @@ if __name__ == '__main__':
     except FileExistsError:
         pass
 
-    app = QApplication([])
+    comms = None
 
-    # comms = Comms("/dev/w0e0", 9600)
+    if input("Comms? ") == "y":
+        comms = Comms("/dev/w0e0", 9600)
 
-    window = MainWindow(None)
+    app = QApplication(sys.argv)
+
+    window = MainWindow(comms=comms)
     window.show()
 
     app.exec()

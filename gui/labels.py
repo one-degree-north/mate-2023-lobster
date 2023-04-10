@@ -14,7 +14,7 @@ class Labels(QWidget):
                 background: %s;
                 border-radius: 10px
             }
-        """ % Color.back)
+        """ % Color.mardi_gras)
 
         self.setFixedHeight(150)
         self.setFixedWidth(250)

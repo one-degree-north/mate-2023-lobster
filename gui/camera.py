@@ -14,7 +14,7 @@ class CameraTab(QWidget):
             QWidget {
                 background: %s;
             }
-        # """ % Color.back)
+        # """ % Color.mardi_gras)
 
         self.cam_width = 500
         self.cam_height = 300

@@ -1,65 +1,38 @@
-from threading import Thread
 import serial
-import controls
-import gui
+from dataclasses import dataclass
+import struct
+
+# @dataclass
+# class PacketInfo:
+#     thruster: int
+#     speed: int
+
 
 class Comms:
-    def __init__(self, port: int, baud_rate: int):
-        self.port = port
-        self.baud_rate = baud_rate
-        ser = serial.Serial(self.port, self,baud_rate)
-        self.ser.close()
-        self.ser.open()
+    def __init__(self, port, baud):
+        self.serial = serial.Serial(port=port, baudrate=baud)
+        
+        self.HEADER = b'\xab'
+        self.FOOTER = b'\xb3'
 
-    def send_value(self,value):
-        #preq: -100<=value<=100
-        value = round(value*1.27)
-        if value<0:
-            value = 255+value
-        return value 
+        self.thrusters = {
+            "FL": b'\x10',
+            "FR": b'\x12',
+            "BL": b'\x14',
+            "BR": b'\x16',
+            "SL": b'\x18',
+            "SR": b'\x20'
+        }
 
-    def run(self):
-        while True: 
-            packetControls = comms.Controls() #change later
-            leftJoy_LR = packetControls.packet[0] #and repeat... will finalize once I know what values will come
-            leftJoy_UD = packetControls.packet[1]
-            rightJoy_LR = packetControls.packet[2]
-            rightJoy_UD = packetControls.packet[3]
-            servoRotate = packetControls.packet[4]
-            servoGrab = packetControls.packet[5]
+    def write(self, thruster: str, speed: int):
+        self.serial.write(self.HEADER)
+        self.serial.write(struct.pack(">cH", self.thrusters[thruster], speed))
+        self.serial.write(self.FOOTER)
 
-            while True:
-                
-                #coding the Left thruster (sendSystemsLes)
-                
-                if leftJoy_LR < [43,43]:
-                    self.value = self.send_value(leftJoy_LR)
-                    packet_leftJoy_stopped = chr(1) + chr(7) + chr((self.value).encode("latin")) + chr(12)
-                    self.ser.write(packet_leftJoy_stopped)
-                else:
-                    self.value = self.send_value(leftJoy_LR)
-                    packet_leftJoy = chr(1) + chr(7) + chr((self.value).encode("latin")) + chr(12) 
-                    self.ser.write(packet_leftJoy)
+if __name__ == "__main__":
+    comms = Comms("/dev/cu.usbmodem112301", 9600)
+    
+    while True:
+        thruster, speed = input("Thruster (ex: FL 1600): ").split()
 
-                #coding the Right thruster
-                if rightJoy_LR < [43,43]:
-                    self.value = self.send_value(rightJoy_LR)
-                    packet_rightJoy_stopped = chr(1) + chr(6) + chr((self.value).encode("latin")) + chr(12)
-                    self.ser.write(packet_rightJoy_stopped)
-                else:
-                    packet_rightJoy = chr(1) + chr(6) + chr((self.value).encode("latin")) + chr(12) 
-                    self.ser.write(packet_rightJoy)
-
-                #servo claw code - finalized with packet value
-                if servoRotate == True:
-                    packet_servoRotate = chr(1) + chr(10) + chr(12)
-                    self.ser.write(packet_servoRotate)
-
-                if servoGrab == True:
-                    packet_servoGrab = chr(1) + chr(11) + chr(12)
-                    self.ser.write(packet_servo)
-
-
-    def start_thread(self):
-        start_thread = Thread(target = self.run)  
-        start_thread.start()
+        comms.write(thruster, int(speed))
