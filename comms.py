@@ -1,7 +1,5 @@
 import serial
-from dataclasses import dataclass
 import struct
-
 
 class Comms:
     def __init__(self, port, baud):

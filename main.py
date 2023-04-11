@@ -5,20 +5,30 @@ from comms import Comms
 import sys
 import os
 
+from serial.tools import list_ports
+
 if __name__ == '__main__':
     try:
         os.mkdir("gui/captures")
     except FileExistsError:
         pass
 
-    comms = None
+    arduino = None
+    
+    for v in list_ports.comports():
+        if "Arduino" in v.description:
+            arduino = v
 
-    if input("Comms? ") == "y":
-        comms = Comms("/dev/cu.usbmodem112301", 9600)
+    if arduino:
+        print(f"Successfully connected - {arduino.description} detected!")
+        comms = Comms(arduino.device, 9600)
+    else:
+        print("Failed to connect - arduino not detected!")
+        comms = None
 
     app = QApplication(sys.argv)
 
-    window = MainWindow(comms=comms)
+    window = MainWindow(comms)
     window.show()
 
     app.exec()
