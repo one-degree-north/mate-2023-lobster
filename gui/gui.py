@@ -108,63 +108,69 @@ class MainWindow(QMainWindow):
         cv2.imwrite("gui/captures/cam2s"+time+".png", self.cameras.cam_2.thread.image)
 
     def keyPressEvent(self, e):
-        if self.comms and not e.isAutoRepeat():
-            if e.key() == Qt.Key.Key_W:
+        if not self.comms or e.isAutoRepeat():
+            return
+        
+        match e.key():
+            case Qt.Key.Key_W:
                 self.comms.forward()
-            elif e.key() == Qt.Key.Key_A:
+            case Qt.Key.Key_A:
                 self.comms.yaw_left()
-            elif e.key() == Qt.Key.Key_S:
+            case Qt.Key.Key_S:
                 self.comms.backward()
-            elif e.key() == Qt.Key.Key_D:
+            case Qt.Key.Key_D:
                 self.comms.yaw_right()
-            elif e.key() == Qt.Key.Key_Q:
+            case Qt.Key.Key_Q:
                 self.comms.roll_left()
-            elif e.key() == Qt.Key.Key_E:
+            case Qt.Key.Key_E:
                 self.comms.roll_right()
-            elif e.key() == Qt.Key.Key_Control:
+            case Qt.Key.Key_Control:
                 self.comms.down()
-            elif e.key() == Qt.Key.Key_Space:
+            case Qt.Key.Key_Space:
                 self.comms.up()
-            elif e.key() == Qt.Key.Key_F:
+            case Qt.Key.Key_F:
                 self.comms.pitch_up()
-            elif e.key() == Qt.Key.Key_C:
+            case Qt.Key.Key_C:
                 self.comms.pitch_down()
-            elif e.key() == Qt.Key.Key_H:
+            case Qt.Key.Key_H:
                 print("hover")
-            elif e.key() == Qt.Key.Key_1:
+            case Qt.Key.Key_1:
                 self.comms.set_speed(1)
-            elif e.key() == Qt.Key.Key_2:
+            case Qt.Key.Key_2:
                 self.comms.set_speed(2)
-            elif e.key() == Qt.Key.Key_3:
+            case Qt.Key.Key_3:
                 self.comms.set_speed(3)
-            elif e.key() == Qt.Key.Key_4:
+            case Qt.Key.Key_4:
                 self.comms.set_speed(4)
-            elif e.key() == Qt.Key.Key_5:
+            case Qt.Key.Key_5:
                 self.comms.set_speed(5)
-            elif e.key() == Qt.Key.Key_0:
+            case Qt.Key.Key_0:
                 self.comms.stop_thrusters()
 
     def keyReleaseEvent(self, e):
-        if self.comms and not e.isAutoRepeat():
-            if e.key() == Qt.Key.Key_W:
+        if not self.comms or e.isAutoRepeat():
+            return
+        
+        match e.key():
+            case Qt.Key.Key_W:
                 self.comms.stop_thrusters(side=True)
-            elif e.key() == Qt.Key.Key_A:
+            case Qt.Key.Key_A:
                 self.comms.stop_thrusters(side=True)
-            elif e.key() == Qt.Key.Key_S:
+            case Qt.Key.Key_S:
                 self.comms.stop_thrusters(side=True)
-            elif e.key() == Qt.Key.Key_D:
+            case Qt.Key.Key_D:
                 self.comms.stop_thrusters(side=True)
-            elif e.key() == Qt.Key.Key_Q:
+            case Qt.Key.Key_Q:
                 self.comms.stop_thrusters(vertical=True)
-            elif e.key() == Qt.Key.Key_E:
+            case Qt.Key.Key_E:
                 self.comms.stop_thrusters(vertical=True)
-            elif e.key() == Qt.Key.Key_Control:
+            case Qt.Key.Key_Control:
                 self.comms.stop_thrusters(vertical=True)
-            elif e.key() == Qt.Key.Key_Space:
+            case Qt.Key.Key_Space:
                 self.comms.stop_thrusters(vertical=True)
-            elif e.key() == Qt.Key.Key_F:
+            case Qt.Key.Key_F:
                 self.comms.stop_thrusters(vertical=True)
-            elif e.key() == Qt.Key.Key_C:
+            case Qt.Key.Key_C:
                 self.comms.stop_thrusters(vertical=True)
 
             

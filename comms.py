@@ -84,8 +84,8 @@ class Comms:
         else:
             thrusters = list(range(6))
 
-        for ti in thrusters:
-            self.__write_thruster(ti, 1500)
+        for v in thrusters:
+            self.__write_thruster(v, 1500)
 
     def __write_thruster(self, index: int, speed: int = None, rev: bool = False):
         self.serial.write(self.HEADER)

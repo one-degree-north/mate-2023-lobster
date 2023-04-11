@@ -3,12 +3,12 @@
 int HEADER = 0xAB;
 int FOOTER = 0xB3;
 
-//Servo frontLeft;
-//Servo frontRight;
-//Servo backLeft;
-//Servo backRight;
-//Servo sideLeft;
-//Servo sideRight;
+Servo frontLeft;
+Servo frontRight;
+Servo backLeft;
+Servo backRight;
+Servo sideLeft;
+Servo sideRight;
 
 struct Input{
   uint8_t command;
@@ -21,28 +21,28 @@ int packetIndex;
 void processCommand(){
   switch(inputValue.command){
     case 0x10:
-//      frontLeft.writeMicroseconds(inputValue.value);
-        Serial.print("FL: ");
+      frontLeft.writeMicroseconds(inputValue.value);
+      Serial.print("FL: ");
     break;
     case 0x12:
-//      frontRight.writeMicroseconds(inputValue.value);
-        Serial.print("FR: ");
+      frontRight.writeMicroseconds(inputValue.value);
+      Serial.print("FR: ");
     break;
     case 0x14:
-//      backLeft.writeMicroseconds(inputValue.value);
-        Serial.print("BL: ");
+      backLeft.writeMicroseconds(inputValue.value);
+      Serial.print("BL: ");
     break;
     case 0x16:
-//      backRight.writeMicroseconds(inputValue.value);
-        Serial.print("BL: ");
+      backRight.writeMicroseconds(inputValue.value);
+      Serial.print("BR: ");
     break;
     case 0x18:
-//      sideLeft.writeMicroseconds(inputValue.value);
-        Serial.print("SL: ");
+      sideLeft.writeMicroseconds(inputValue.value);
+      Serial.print("SL: ");
     break;
     case 0x20:
-//      sideRight.writeMicroseconds(inputValue.value);
-        Serial.print("SR: ");
+      sideRight.writeMicroseconds(inputValue.value);
+      Serial.print("SR: ");
     break;
   }
 
@@ -69,7 +69,7 @@ void readInput(){
     }
     if (packetIndex >= 4){
       if (input == FOOTER){
-        processCommand(inputValue);
+        processCommand();
       }
       packetIndex = -1;
     }
@@ -85,8 +85,17 @@ void resetReadInput(){
 
 void setup(){
   Serial.begin(9600);
-  Serial.println("start");
+
+  frontLeft.attach(7);
+  frontRight.attach(8);
+  backLeft.attach(9);
+  backRight.attach(10);
+  sideLeft.attach(11);
+  sideRight.attach(12);
+  
   resetReadInput();
+
+  Serial.println("Ready...");
 }
 
 
