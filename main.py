@@ -16,7 +16,7 @@ if __name__ == '__main__':
     arduino = None
     
     for v in list_ports.comports():
-        if "Arduino" in v.description:
+        if "USB" in v.description:
             arduino = v
 
     if arduino:

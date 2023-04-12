@@ -3,12 +3,12 @@
 int HEADER = 0xAB;
 int FOOTER = 0xB3;
 
-Servo frontLeft;
-Servo frontRight;
-Servo backLeft;
-Servo backRight;
-Servo sideLeft;
-Servo sideRight;
+Servo thruster1;
+Servo thruster2;
+Servo thruster3;
+Servo thruster4;
+Servo thruster5;
+Servo thruster6;
 
 struct Input{
   uint8_t command;
@@ -18,30 +18,30 @@ struct Input{
 Input inputValue;
 int packetIndex;
 
-void processCommand(){
-  switch(inputValue.command){
+void processCommand() {
+  switch(inputValue.command) {
     case 0x10:
-      frontLeft.writeMicroseconds(inputValue.value);
+      thruster1.writeMicroseconds(inputValue.value);
       Serial.print("FL: ");
     break;
     case 0x12:
-      frontRight.writeMicroseconds(inputValue.value);
+      thruster2.writeMicroseconds(inputValue.value);
       Serial.print("FR: ");
     break;
     case 0x14:
-      backLeft.writeMicroseconds(inputValue.value);
+      thruster3.writeMicroseconds(inputValue.value);
       Serial.print("BL: ");
     break;
     case 0x16:
-      backRight.writeMicroseconds(inputValue.value);
+      thruster4.writeMicroseconds(inputValue.value);
       Serial.print("BR: ");
     break;
     case 0x18:
-      sideLeft.writeMicroseconds(inputValue.value);
+      thruster5.writeMicroseconds(inputValue.value);
       Serial.print("SL: ");
     break;
     case 0x20:
-      sideRight.writeMicroseconds(inputValue.value);
+      thruster6.writeMicroseconds(inputValue.value);
       Serial.print("SR: ");
     break;
   }
@@ -49,7 +49,7 @@ void processCommand(){
   Serial.println(inputValue.value);
 }
 
-void readInput(){
+void readInput() {
   if (Serial.available() > 0){
     int input = Serial.read();
     
@@ -77,21 +77,21 @@ void readInput(){
   }
 }
 
-void resetReadInput(){
+void resetReadInput() {
   packetIndex = 0;
   inputValue.value = 0;
 }
 
 
-void setup(){
+void setup() {
   Serial.begin(9600);
 
-  frontLeft.attach(7);
-  frontRight.attach(8);
-  backLeft.attach(9);
-  backRight.attach(10);
-  sideLeft.attach(11);
-  sideRight.attach(12);
+  thruster1.attach(7);
+  thruster2.attach(8);
+  thruster3.attach(9);
+  thruster4.attach(10);
+  thruster5.attach(11);
+  thruster6.attach(12);
   
   resetReadInput();
 
@@ -99,6 +99,6 @@ void setup(){
 }
 
 
-void loop(){
+void loop() {
   readInput();
 }

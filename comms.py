@@ -10,12 +10,14 @@ class Comms:
 
         self.THRUSTERS = (
             b'\x10',
+            b'\x16',
             b'\x12',
             b'\x14',
-            b'\x16',
+            b'\x20',
             b'\x18',
-            b'\x20'
-        ) # fl, fr, bl, br, sl, sr
+
+
+        ) # fl, fr , bl, br, sl, sr ------ bry top to bottom
 
         self.speed = 200
 
@@ -34,22 +36,26 @@ class Comms:
     def forward(self):
         self.__write_thruster(4)
         self.__write_thruster(5)
+        # while True:
+        #     self.stop_thrusters()
+        #     self.__write_thruster(int(input("t: ")), 2000)
+        #     input()
 
     def backward(self):
         self.__write_thruster(4, rev=True)
         self.__write_thruster(5, rev=True)
 
     def roll_left(self):
-        self.__write_thruster(0, rev=True)
-        self.__write_thruster(1)
-        self.__write_thruster(2, rev=True)
-        self.__write_thruster(3)
-
-    def roll_right(self):
         self.__write_thruster(0)
         self.__write_thruster(1, rev=True)
         self.__write_thruster(2)
         self.__write_thruster(3, rev=True)
+
+    def roll_right(self):
+        self.__write_thruster(0, rev=True)
+        self.__write_thruster(1)
+        self.__write_thruster(2, rev=True)
+        self.__write_thruster(3)
 
     def pitch_up(self):
         self.__write_thruster(0)
@@ -89,10 +95,13 @@ class Comms:
         self.serial.write(self.HEADER)
 
         if not speed:
+            if index in list(range(4)):
+                rev = not rev
+
             if rev:
                 speed = 1500 - self.speed
             else:
-                speed = 1500 + self.speed            
+                speed = 1500 + self.speed
 
         self.serial.write(struct.pack(">cH", self.THRUSTERS[index], speed))
         self.serial.write(self.FOOTER)
