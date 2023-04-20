@@ -9,14 +9,12 @@ class Comms:
         self.FOOTER = b'\xb3'
 
         self.THRUSTERS = (
-            b'\x10',
-            b'\x16',
-            b'\x12',
-            b'\x14',
+            b'\x16', 
             b'\x20',
+            b'\x14',
+            b'\x12',
             b'\x18',
-
-
+            b'\x10',
         ) # fl, fr , bl, br, sl, sr ------ bry top to bottom
 
         self.speed = 200
@@ -95,7 +93,10 @@ class Comms:
         self.serial.write(self.HEADER)
 
         if not speed:
-            if index in list(range(4)):
+            if index in list(range(5)):
+                rev = not rev
+
+            if index == 1:
                 rev = not rev
 
             if rev:
