@@ -9,6 +9,7 @@ Servo thruster3;
 Servo thruster4;
 Servo thruster5;
 Servo thruster6;
+Servo claw;
 
 struct Input{
   uint8_t command;
@@ -43,6 +44,18 @@ void processCommand() {
     case 0x20:
       thruster6.writeMicroseconds(inputValue.value);
       Serial.print("SR: ");
+    break;
+    case 0x22:
+      claw.writeMicroseconds(inputValue.value);
+      Serial.println("CLAW: ");
+    break;
+    case 0x24:
+      digitalWrite(2, HIGH);
+      Serial.println("LED HIGH ");
+    break;
+    case 0x26:
+      digitalWrite(2, LOW);
+      Serial.println("LED LOW ");
     break;
   }
 
@@ -86,12 +99,15 @@ void resetReadInput() {
 void setup() {
   Serial.begin(9600);
 
+  pinMode(2, OUTPUT);
+
   thruster1.attach(7);
   thruster2.attach(8);
   thruster3.attach(9);
   thruster4.attach(10);
   thruster5.attach(11);
   thruster6.attach(12);
+  claw.attach(13);
   
   resetReadInput();
 
